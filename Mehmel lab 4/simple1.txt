@@ -1,0 +1,23 @@
+WHILE1:    LOD   INDEX             ; while (index < limit) {
+           SUB   LIMIT
+           JZ    ENDwhile1
+
+           LDI   ARRAY             ;     sum += ARRAY[index];
+           ADD   INDEX
+           A2S
+           LDS
+           ADD   SUM
+           STD   SUM
+
+           LDI   1                 ;     index++;
+           ADD   INDEX
+           STD   INDEX
+
+           JMP   WHILE1            ;}
+
+ENDWHILE1: HLT
+
+ARRAY:     NUMS  14,12,99,38,50,17
+INDEX:     NUM   0
+LIMIT:     NUM   6
+SUM:       NUM   0

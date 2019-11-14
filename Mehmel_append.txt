@@ -1,0 +1,102 @@
+; Lucas Mehmel
+
+;  This is the main program for appending a node.  The new node 
+;  already exists and is pointed to by NEWNODE (see below.)
+
+MAIN:      NOP               ; main program
+
+           LDI  NEWNODE      ; first parm is a pointer to newnode
+           STD  APPEND.PARM1
+
+           LOD  HEAD
+           STD  APPEND.PARM2
+
+           CAL  APPEND       ; ptr = append(newnode, head);
+                  
+           STD  4095         ; print(ptr);
+           HLT
+
+;-------------------------------------------------------------------------
+
+APPEND:    NOP
+           NS   APPEND
+           S2A
+           STD  SAVE_ADDR
+
+
+IF1:       LOD  PARM1        ; if (PARM1==0) {
+           JZ   THEN1
+           JMP  ENDIF1
+
+THEN1:     LOD  PARM1        ;if PARM1 == 0 then return PARM1
+           RET
+
+ENDIF1:    NOP               ;}
+  
+           LOD  PARM2
+           STD  P                  ; the headptr is assigned to P and LastP
+           STD  LASTP
+ 
+
+WHILE1:    LOD  P           ;  while (P!=0) {
+           JZ   ENDWHILE1
+           
+           LOD  P         
+           STD  LASTP               ; Update the lastP to the current node
+
+           LOD  P                   ; move P to the next one
+           ADD  $1
+           A2S
+           LDS
+           STD  P
+           JMP  WHILE1        ; does this until p == 0
+ENDWHILE1: NOP               ;}
+
+           LOD  LASTP          ; appends the newnode to the end
+           ADD  $1
+           A2S
+           LOD  PARM1
+           STS
+
+           LOD  PARM2
+           STD  RETVAL                     ; stores headptr into retval
+
+           LOD  SAVE_ADDR
+           A2S
+           LOD  RETVAL                     ; ends subroutine and returns the retval
+           RET
+
+P:         NUM  0                             ; P is the runner
+LASTP:     NUM  0                    ; Lastp is the node before the runner
+PARM1:     NUM  0                    ; pointer to the newNOde
+PARM2:     NUM  0                    ; is the headptr
+RETVAL:    NUM  0                    ; Value to return
+SAVE_ADDR: NUM  0                    ; the number of the location to return
+
+NS
+
+
+
+;-------------------------------------------------------------------------
+HEAD:      NUM  2500         ; pointer to first node
+
+=3000
+NEWNODE:   NUM  442          ; this is a new node to append
+           NUM  0            ; next pointer is null
+
+=2500                      
+           NUM  46           ; first node in the list
+           NUM  2505
+=2505
+           NUM  99           ; second node in list
+           NUM  2510
+=2510
+           NUM  17           ; third node in the list
+           NUM  2515
+=2515
+           NUM  57           ; third node in the list
+           NUM  0            ; NULL end of list marker
+; this will get overwritten with newnode
+; pointer
+
+

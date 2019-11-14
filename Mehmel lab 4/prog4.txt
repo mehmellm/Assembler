@@ -1,0 +1,46 @@
+          LDI     0                             ; for(I=0; i<$10; i++) {
+          STD     I
+
+FOR1:     LOD     $39
+          SUB     I
+          JZ      ENDFOR1
+          JN      ENDFOR1
+
+; Here's where you get the Ith letter and check it
+
+IF1:      LOD     TEMP                          ; if (I==$83) {
+          SUB     $83
+          JZ      THEN1
+          JMP     ENDIF1
+
+THEN1:    LOD     COUNT
+          ADD     $1
+          STD     COUNT
+ENDIF1:   NOP
+
+
+IF2:      LOD     TEMP                          ; if (I==$115) {
+          SUB     $115
+          JZ      THEN2
+          JMP     ENDIF2
+
+THEN2:    LOD     COUNT
+          ADD     $1
+          STD     COUNT
+
+ENDIF2:   NOP
+
+
+          LDI     1
+          ADD     I
+          STD     I
+          JMP     FOR1
+ENDFOR1:
+          LOD     COUNT
+          STD     4095
+          HLT
+
+GREETING: STRING  "Greetings, Earthlings!  You are SO sad!"
+I:        NUM     0                             ; The index variable
+COUNT:    NUM     0                             ; How many S letters?
+TEMP:     NUM     0

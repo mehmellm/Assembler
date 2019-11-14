@@ -1,0 +1,100 @@
+; Lucas Mehmel
+;  This is the main program for deleting a node.
+
+MAIN:      NOP               ; main program
+
+           LOD  4094         ; get the value to delete
+           STD  DELETE.PARM1
+
+           LOD  HEAD
+           STD  DELETE.PARM2
+
+           CAL  DELETE       ; ptr = delete(victim_value, head);
+                  
+           STD  4095         ; print(ptr);
+           HLT
+
+;-------------------------------------------------------------------------
+
+DELETE:    NOP
+           NS   DELETE
+           S2A
+           STD  SAVE_ADDR    ; saves return address
+ 
+           LOD  PARM2        ; load headptr and store it into p and Lastp
+           STD  P
+           STD  LASTP
+           LOD  P            ; get the value at p and store it into x
+           A2S
+           LDS
+           STD  X
+
+
+WHILE1:    LOD  P            ;  while (P!=0) {
+           JZ   ENDWHILE1
+  
+IF1:       LOD  PARM1        ; if (PARM1==X) {
+           SUB  X
+           JZ   THEN1
+           JMP  ENDIF1
+THEN1:     LOD  LASTP       ; take the node before then and get its next and assign it to p's next node
+           ADD  $1
+           A2S
+           LOD  P
+           ADD  $1
+           STS
+           LOD  P
+           STD  RETVALUE          ; LOD the address to be deleted and store into RETVALUE
+           LOD  SAVE_ADDR
+           A2S                    ; get return address  and RETVALUE and exit subroutine
+           LOD  RETVALUE
+           RET
+
+ENDIF1:    NOP               ;}
+
+           LOD  P
+           STD  LASTP        ; Update the lastP to the current node
+
+           LOD  P            ; move P to the next node
+           ADD  $1
+           A2S
+           LDS
+           STD  P
+           LOD  P            ; get the value at p and store it into x
+           A2S
+           LDS
+           STD  X            ; fill in with your code
+
+           JMP  WHILE1
+ENDWHILE1: NOP               ;}
+           LOD  SAVE_ADDR          ; Load return address
+           A2S
+           LOD  RETVALUE          ; get RetVAlue
+           RET                    ; Return 
+
+
+
+PARM1:     NUM  0            ; the value to delete
+PARM2:     NUM  0            ; the headptr
+SAVE_ADDR: NUM  0            ; return address
+P:         NUM  0            ; runner
+LASTP:     NUM  0            ; node before runner
+X:         NUM  0            ; Value of current node
+RETVALUE:  NUM  0
+           NS
+;-------------------------------------------------------------------------
+HEAD:      NUM  2500         ; pointer to first node
+
+=2500                      
+           NUM  46           ; first node in the list
+           NUM  2505
+=2505
+           NUM  99           ; second node in list
+           NUM  2510
+=2510
+           NUM  17           ; third node in the list
+           NUM  2515
+=2515
+           NUM  57           ; third node in the list
+           NUM  0            ; NULL end of list marker
+

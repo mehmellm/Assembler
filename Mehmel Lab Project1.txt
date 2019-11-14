@@ -1,0 +1,99 @@
+; Author Lucas Mehmel
+; Lab  Project #1
+; Purpose: concatenates 2 strings
+WHILE1:    NOP                     ; Copies all of S1 into S3
+   
+           LDI     S1
+           ADD     I               ; index
+           A2S
+           LDS
+           STD     TEMP
+               
+IF1:       LOD     TEMP            ; if (S1[I]=="/0") {
+           SUB     NULL
+      
+           JP      ENDIF1
+           JN      ENDIF1
+           JMP     ENDWHILE1          ;break
+
+
+ENDIF1:    NOP
+
+           LDI     S3
+           ADD     I			; Adds I to S3
+           A2S
+           LOD     TEMP            ; I points to next spot in s3
+           STS
+        
+           LOD     I
+           ADD     $1			; I + 1
+           STD     I
+         
+           JMP     WHILE1
+ENDWHILE1: NOP
+;}
+
+
+WHILE2:    NOP                     ; Copies all of information into S3
+    
+           LDI     S2
+           ADD     K
+           A2S
+           LDS
+           STD     TEMP1
+                 
+IF2:       LOD     TEMP1           ; if (S2[I]=="/0") {
+           SUB     NULL
+      
+           JP      ENDIF2
+           JN      ENDIF2
+           JMP     ENDWHILE2               ;break
+
+ENDIF2:    NOP
+;}
+
+           LDI     S3
+           ADD     I			; adds I to S3
+           A2S
+           LOD     TEMP1
+           STS
+
+           LOD     K
+           ADD     $1			; k + 1
+           STD     K
+
+           LOD     I
+           ADD     $1			; I + 1
+           STD     I
+         
+           JMP     WHILE2
+ENDWHILE2: NOP                     ;}
+
+           LDI     S3
+           ADD     I
+           A2S
+           LOD     $0              ;S3[I] = 0;
+           STS
+        
+
+           HLT			; Stops program
+
+
+
+S1:        STRING  "the dog\0"     
+=S1+100                       ;S1 can't be more than 99 chars
+
+S2:        STRING  "and the cat\0" 
+=S2+100                       ;S2 can't be more than 99 chars
+
+S3:        SPACE   200             ;S3 can't be more than 199 chars
+
+
+I:         NUM     0		; Index
+TEMP:      NUM     0
+TEMP1:     NUM     0
+K:         NUM     0
+
+NULL:      NUM     0               ; Declare int "\0"
+
+         

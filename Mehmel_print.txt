@@ -1,0 +1,74 @@
+; Lucas Mehmel
+
+MAIN:      NOP              ; main program
+
+           LOD  HEAD
+           STD  PRINT.PARM1
+           CAL  PRINT       ; ptr = print(head);
+                
+           HLT
+
+;-------------------------------------------------------------------------
+PRINT:     NOP
+           NS   PRINT
+           S2A
+           STD  SAVE_ADDR                     ; saves return address
+           LOD  PARM1
+           STD  P                             ; head stored into p
+
+WHILE1:    LOD  P                    ; (while p != 0)
+           ADD  $1                    ; get next one in list
+           A2S
+           LDS
+           JZ   ENDWHILE1
+
+           LOD  P                                
+           STD  4095                    ; print out p
+           ADD  $1                    ; get next item in list
+           A2S
+           LDS
+           STD  P                    ; stores the next item into p
+
+           JMP  WHILE1                    ; back to the top
+
+ENDWHILE1: NOP
+
+IF1:       LOD  P                    ; if (p == 0) go to then1
+           A2S
+           LDS
+           JZ   ENDIF1
+
+THEN1:     LOD  P
+           STD  4095			; prints last address
+           LOD  CLOSE			; load -999 to tell the user it is done
+           STD  4095			; prints -999
+
+ENDIF1:    NOP
+
+
+
+PARM1:     NUM  0               ; the headptr
+SAVE_ADDR: NUM  0               ; return address
+P:         NUM  0               ; runner
+CLOSE:       NUM  -999               ; tells when done
+           NS
+
+;----------------------------------------------------------------------------
+
+HEAD:      NUM  2500        ; pointer to first node
+
+=2500                      
+           NUM  46          ; first node in the list
+           NUM  2505
+=2505
+           NUM  99          ; second node in list
+           NUM  2510
+=2510
+           NUM  17          ; third node in the list
+           NUM  2515
+=2515
+           NUM  57          ; third node in the list
+           NUM  0           ; NULL end of list marker
+
+FREE:      NUM  2517        ; next free spot
+

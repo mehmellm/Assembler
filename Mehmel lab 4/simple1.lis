@@ -1,0 +1,13 @@
+@0000 LDI   ARRAY              ;     sum += ARRAY[index];
+@0001 ADD   INDEX 
+@0002 A2S 
+@0003 LDS 
+@0004 STD   X 
+@0005  
+@0005 HLT 
+@0006  
+@0006 ARRAY:    NUMS  14,12,99,38,50,17 
+@0012 INDEX:    NUM   3 
+@0013 LIMIT:    NUM   6 
+@0014 SUM:      NUM   0 
+@0015 X:        NUM   0 

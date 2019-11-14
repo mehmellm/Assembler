@@ -1,0 +1,31 @@
+input r3
+input r4
+store r3, a
+store r4, b
+
+lod r1, a
+store r1, orig_a
+lod r2, b
+store r2, orig_b
+
+while: sub r0, a, b
+	jz endwhile
+if: sub r5, r3, r4
+	jn else
+	lod r4, b
+	add r4, r4, r2
+	store r4, b
+
+else: lod r3
+	add r3, r3, r1
+	store r3, a
+endwhile:
+	lod r0, a
+	output r0
+
+
+
+a: int 0
+b: int 0
+orig_a: int 0
+orig_b: int 0
